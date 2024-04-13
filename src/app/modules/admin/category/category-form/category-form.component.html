@@ -1,0 +1,60 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Main -->
+    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
+        <div class="flex flex-col w-full max-w-4xl">
+            <div class="mt-2 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight">
+                {{isFormInEditMode() ? 'Edit Category ' : 'Add New category'}}
+            </div>
+            <div class="mt-2 sm:mt-12 p-6 pb-7 sm:p-10 sm:pb-7 shadow rounded-2xl bg-card">
+                <!-- Alert -->
+                <fuse-alert
+                    class="mb-8"
+                    *ngIf="alert"
+                    [type]="alert.type"
+                    [showIcon]="false">
+                    {{alert.message}}
+                </fuse-alert>
+                <form
+                    (ngSubmit)="onSubmit()"
+                    class="space-y-3"
+                    [formGroup]="categoriesForm"
+                    *ngIf="!!categoriesForm"
+                >
+                    <div class="mb-6">
+                        <div class="text-2xl font-bold tracking-tight">Submit your category</div>
+                    </div>
+
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Name</mat-label>
+                        <input
+                            matInput
+                            formControlName="label"
+                        >
+
+                    </mat-form-field>
+
+                    <!-- Actions -->
+                    <div class="flex items-center justify-end">
+                        <button
+                            type="button"
+                            mat-button
+                            color="accent"
+                            backButton>
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            class="ml-2"
+                            mat-flat-button
+                            color="primary"
+                            [disabled]=" categoriesForm.invalid"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

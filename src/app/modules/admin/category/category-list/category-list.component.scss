@@ -1,0 +1,17 @@
+th {
+    padding: 18px 20px !important;
+    text-transform: uppercase !important;
+    color: #334d6e !important;
+    font-size: .85em !important;
+    font-weight: 500 !important;
+}
+th,.dark, .light {
+    @apply text-default bg-default #{'!important'};
+}
+.drag,.dark, .light {
+    @apply text-default bg-default #{'!important'};
+    max-width: 2rem;
+}
+td {
+    padding: 10px 12px !important;
+}

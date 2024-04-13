@@ -1,0 +1,235 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Main -->
+    <div class="flex flex-col flex-auto items-center p-6 sm:p-10">
+        <div class="flex flex-col w-full max-w-4xl">
+            <div class="-ml-4 sm:mt-8">
+                <a
+                    mat-button
+                    backButton
+                    color="primary">
+                    <mat-icon svgIcon="heroicons_outline:arrow-narrow-left"></mat-icon>
+                    <span class="ml-2">Back to Product List</span>
+                </a>
+            </div>
+            <div class="mt-2 text-4xl sm:text-7xl font-extrabold tracking-tight leading-tight">
+                {{isFormInEditMode() ? 'Edit Product' : 'Add New Product'}}
+            </div>
+            <div class="mt-2 sm:mt-12 p-6 pb-7 sm:p-10 sm:pb-7 shadow rounded-2xl bg-card">
+                <!-- Alert -->
+                <fuse-alert
+                    class="mb-8"
+                    *ngIf="alert"
+                    [type]="alert.type"
+                    [showIcon]="false">
+                    {{alert.message}}
+                </fuse-alert>
+                <form
+                    (ngSubmit)="onSubmit()"
+                    class="space-y-3"
+                    [formGroup]="productForm"
+                    *ngIf="!!productForm"
+                >
+                    <div class="mb-6">
+                        <div class="text-2xl font-bold tracking-tight">Submit your place</div>
+                    </div>
+
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Name</mat-label>
+                        <input
+                            matInput
+                            formControlName="label"
+                        >
+
+                    </mat-form-field>
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>ref</mat-label>
+                        <input
+                            matInput
+                            formControlName="ref"
+                        >
+
+                    </mat-form-field>
+                    <mat-form-field formGroupName="category" class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                                    appearance="fill">
+                        <mat-label>Categorie</mat-label>
+                        <mat-select formControlName="id">
+                            <mat-option [value]="null">-</mat-option>
+                            <mat-option *ngFor="let category of categoriesDataSource" [value]="category.id">
+                                {{category.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field  formGroupName="marque" class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                                    appearance="fill">
+                        <mat-label>Categorie</mat-label>
+                        <mat-select formControlName="id">
+                            <mat-option [value]="null">-</mat-option>
+                            <mat-option *ngFor="let marques of marquesDataSource" [value]="marques.id">
+                                {{marques.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <mat-form-field  formGroupName="model" class="fuse-mat-no-subscript w-full sm:w-72 mt-4 sm:mt-0 sm:ml-4"
+                                    appearance="fill">
+                        <mat-label>Categorie</mat-label>
+                        <mat-select formControlName="id">
+                            <mat-option [value]="null">-</mat-option>
+                            <mat-option *ngFor="let models of modelsDataSource" [value]="models.id">
+                                {{models.label}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>etat</mat-label>
+                        <input
+                            matInput
+                            formControlName="etat"
+                        >
+
+                    </mat-form-field>
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Boite Vitesse</mat-label>
+                        <input
+                            matInput
+                            formControlName="boiteVitesse"
+                        >
+
+                    </mat-form-field>
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Carburant</mat-label>
+                        <input
+                            matInput
+                            formControlName="carburant"
+                        >
+
+                    </mat-form-field>
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Cylindre</mat-label>
+                        <input
+                            matInput
+                            formControlName="cylindre"
+                        >
+
+                    </mat-form-field>
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Denomination</mat-label>
+                        <input
+                            matInput
+                            formControlName="denomination"
+                        >
+
+                    </mat-form-field>
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Puissance</mat-label>
+                        <input
+                            matInput
+                            formControlName="puissance"
+                        >
+
+                    </mat-form-field>
+                    <!-- name  -->
+                    <mat-form-field class="w-full">
+                        <mat-label>Description</mat-label>
+                        <textarea
+                            matInput
+                            formControlName="description"
+                        >
+                        </textarea>
+                    </mat-form-field>
+                    <table class="w-full">
+                        <tr>
+                            <th>
+
+                                <div class=" flex justify-between ">
+                                    <div class="text-2xl font-bold tracking-tight">Add Images</div>
+
+                                    <button
+                                        type="button"
+                                        class="w-8 h-8 min-h-8"
+                                        mat-icon-button
+                                        (click)="addDataItem()"
+                                        matTooltip="Add">
+                                        <mat-icon
+                                            class="icon-size-7"
+                                            [svgIcon]="'heroicons_solid:plus-circle'"></mat-icon>
+                                    </button>
+
+                                </div>
+                            </th>
+                        </tr>
+                        <div class="mb-6">
+                            <div class="text-secondary">Use this website to get img Url.
+                                <a href="https://fr.imgbb.com"
+                                   target="blank">
+                                    <mat-icon svgIcon="heroicons_solid:question-mark-circle"></mat-icon>
+                                </a>
+                            </div>
+                        </div>
+                        <tr formArrayName="imgUrlList" *ngFor="let data of dataArray().controls ; let i = index">
+
+                            <td>
+                                <div [formGroupName]="i"
+                                     class="flex flex-col sm:flex-row items-center justify-between w-full max-w-xs sm:max-w-none mb-8">
+                                    <mat-form-field
+                                        class="fuse-mat-no-subscript flex-auto w-full sm:ml-4">
+                                        <mat-label>img Link</mat-label>
+                                        <input
+                                            matInput
+                                            formControlName="path"
+                                        >
+
+                                    </mat-form-field>
+                                    <div
+                                        class=" items-center pl-4 pt-4"
+                                    >
+                                        <button
+                                            type="button"
+                                            class="w-8 h-8 min-h-8"
+                                            mat-icon-button
+                                            (click)="removeDataItem(i)"
+                                            matTooltip="Remove">
+                                            <mat-icon
+                                                class="icon-size-7"
+                                                [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+                                        </button>
+                                    </div>
+                                </div>
+                            </td>
+
+
+                        </tr>
+
+                    </table>
+
+                    <!-- Actions -->
+                    <div class="flex items-center justify-end">
+                        <button
+                            type="button"
+                            mat-button
+                            color="accent"
+                            backButton>
+                            Cancel
+                        </button>
+                        <button
+                            type="submit"
+                            class="ml-2"
+                            mat-flat-button
+                            color="primary"
+                            [disabled]=" productForm.invalid"
+                        >
+                            Submit
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

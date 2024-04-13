@@ -1,0 +1,82 @@
+<div class="flex flex-col flex-auto min-w-0">
+
+    <!-- Main -->
+    <div class="flex-auto p-6">
+
+        <!-- CONTENT GOES HERE -->
+        <div class="bg-card dark:border-b p-6">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center min-w-0 ">
+                <div class="flex flex-auto items-center min-w-0">
+                    <div class="flex flex-col min-w-0 ml-4 ">
+                        <div
+                            class="text-2xl md:text-2xl font-semibold tracking-tight leading-7 md:leading-snug truncate">
+                            Categories List
+                        </div>
+                    </div>
+                </div>
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                    <a
+                        class="fuse-mat-button-rounded"
+                        mat-flat-button
+                        color="primary"
+                        routerLink="./form">
+                        <mat-icon
+                            class="icon-size-5"
+                            svgIcon="add"></mat-icon>
+                        <span class="ml-2">Add Marque</span></a>
+                </div>
+            </div>
+
+            <div class="w-full mt-10 overflow-x-auto">
+                <table mat-table
+                       [dataSource]="marquesDataSource"
+                       class="w-full">
+
+                    <!-- Category -->
+                    <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef> id</th>
+                        <td mat-cell
+                            *matCellDef="let element"> {{element?.id }} </td>
+                    </ng-container>
+                    <!-- name -->
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef> name</th>
+                        <td mat-cell *matCellDef="let element">
+                                <span class="ml-3 leading-4">
+                                    {{element?.label}}
+                                </span>
+                        </td>
+                    </ng-container>
+
+                    <!-- action Column -->
+                    <ng-container stickyEnd matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef></th>
+                        <td mat-cell class="drag" *matCellDef="let element">
+                            <div class="flex justify-between">
+                                <button mat-icon-button
+                                        [routerLink]="element.id + '/edit'">
+                                    <mat-icon svgIcon="edit"></mat-icon>
+                                </button>
+                                <button mat-icon-button
+                                        (click)="onDeleteMarque(element.id)">
+                                    <mat-icon svgIcon="delete_outline"></mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                </table>
+                <mat-paginator
+                    class="flex flex-row-reverse"
+                    [length]="page?.totalElements"
+                    (page)="paginate($event)" showFirstLastButtons
+                    [pageSize]="page?.size"
+                    [pageSizeOptions]="pageSizeOptions"
+                ></mat-paginator>
+            </div>
+        </div>
+    </div>
+
+</div>
