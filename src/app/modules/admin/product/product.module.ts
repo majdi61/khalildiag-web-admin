@@ -55,7 +55,7 @@ export interface ProductElement {
         MatFormFieldModule,
         MatInputModule,
         MatTooltipModule,
-        MatSelectModule
+        MatSelectModule,
     ]
 })
 export class ProductModule { }

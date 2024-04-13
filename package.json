@@ -7,7 +7,7 @@
     "private": true,
     "scripts": {
         "ng": "ng",
-        "start": "set NODE_OPTIONS=--openssl-legacy-provider  && ng serve --open --port 4200 --host 0.0.0.0",
+        "start": "set NODE_OPTIONS=--openssl-legacy-provider  && ng serve --open --port 4200 --host 0.0.0.0 --proxy-config proxy.conf.json",
         "build": "ng build",
         "test": "ng test",
         "lint": "ng lint"

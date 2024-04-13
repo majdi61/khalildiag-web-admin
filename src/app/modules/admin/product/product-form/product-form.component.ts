@@ -1,16 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {ProductsService} from "../products.service";
-import {FormArray, FormControl, FormGroup} from "@angular/forms";
+import {FormArray, FormBuilder, FormControl, FormGroup} from "@angular/forms";
 import {ActivatedRoute, Router} from "@angular/router";
 import {ProductElement} from "../product.module";
 import {ModelesService} from "../../modeles/modeles.service";
 import {CategoriesService} from "../../category/categories.service";
 import {MarqueService} from "../../marque/marque.service";
+import {ImgbbService} from "../../../../shared/imgbb.service";
 
 @Component({
-  selector: 'app-product-form',
-  templateUrl: './product-form.component.html',
-  styleUrls: ['./product-form.component.scss']
+    selector: 'app-product-form',
+    templateUrl: './product-form.component.html',
+    styleUrls: ['./product-form.component.scss']
 })
 export class ProductFormComponent implements OnInit {
     productForm: FormGroup;
@@ -21,6 +22,7 @@ export class ProductFormComponent implements OnInit {
     modelsDataSource: any;
     categoriesDataSource: any;
     marquesDataSource: any;
+
     constructor(
         private productsService: ProductsService,
         private activatedRoute: ActivatedRoute,
@@ -28,6 +30,7 @@ export class ProductFormComponent implements OnInit {
         private modelService: ModelesService,
         private CategoriesService: CategoriesService,
         private marqueService: MarqueService,
+        private imgBBService: ImgbbService, private formBuilder: FormBuilder
     ) {
     }
 
@@ -59,10 +62,11 @@ export class ProductFormComponent implements OnInit {
 
         });
     }
+
     fetchMarquesDataSource(): void {
         const queryParams: any = {
             page: 0,
-            size:220,
+            size: 220,
 
         };
         console.log('queryParams: ', queryParams);
@@ -71,10 +75,11 @@ export class ProductFormComponent implements OnInit {
             console.log(this.marquesDataSource);
         });
     }
+
     fetchCategoriesDataSource(): void {
         const queryParams: any = {
             page: 0,
-            size:220,
+            size: 220,
         };
         console.log('queryParams: ', queryParams);
         this.CategoriesService.getCategoriesList(queryParams).then((page) => {
@@ -82,10 +87,11 @@ export class ProductFormComponent implements OnInit {
             console.log(this.categoriesDataSource);
         });
     }
+
     fetchModelsDataSource(): void {
         const queryParams: any = {
             page: 0,
-            size:220,
+            size: 220,
         };
         console.log('queryParams: ', queryParams);
         this.modelService.getModelsList(queryParams).then((page) => {
@@ -93,12 +99,13 @@ export class ProductFormComponent implements OnInit {
             console.log(this.modelsDataSource);
         });
     }
+
     createDataItem(item): any {
         if (item?.imgUrlList?.length > 0) {
             const formArray = new FormArray([]);
             item.imgUrlList.forEach((photos) => {
                 formArray.push(new FormGroup({
-                    path: new FormControl(photos.path ),
+                    path: new FormControl(photos.path),
                 }));
             });
             return formArray;
@@ -135,6 +142,7 @@ export class ProductFormComponent implements OnInit {
         this.router.navigate(['./products']);
 
     }
+
     ngOnInit(): void {
 
         this.currentItemId = this.activatedRoute.snapshot.params.id;
@@ -156,6 +164,19 @@ export class ProductFormComponent implements OnInit {
         }
 
 
-
     }
-}
+
+    uploadImg(e: Event, i: any) {
+        const input = e.target as HTMLInputElement;
+
+        this.imgBBService.uploadImg(input.files[0]).subscribe(url => {
+            this.productForm.value.imgUrlList[i].path = url
+            const formArray = this.productForm.get('imgUrlList') as FormArray;
+            console.log(this.productForm.controls['imgUrlList'])
+            formArray.at(i).patchValue({ path: url });
+            console.log(formArray.controls[i]['path'])
+        } )
+        }
+    }
+
+
